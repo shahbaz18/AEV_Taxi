@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="aev.sec.com.aev.HomeActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:splitMotionEvents="false"
+    xmlns:tools="http://schemas.android.com/tools">
+        <RelativeLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
+                android:background="@color/colorPrimary"
+                android:layout_height="?attr/actionBarSize">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/drawer_menu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        app:srcCompat="@drawable/nav_menu"
+                        android:padding="8dp"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="AEV Taxi"
+                        android:textColor="@color/white"
+                        android:id="@+id/otp_heading"
+                        android:textSize="@dimen/screen_heading"
+                        />
+
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+
+            <RelativeLayout
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/toolbar"
+                >
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progress_bar"
+                    android:layout_centerInParent="true"
+                    />
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Map not found"
+                    android:layout_centerInParent="true"
+                    android:textSize="15sp"
+                    android:id="@+id/no_nearby_text"
+                    android:visibility="gone"
+                    />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#99ffffff"
+                android:layout_below="@+id/toolbar"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:padding="4dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:text="Pick up point"
+                    android:textSize="11sp"/>
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/pick_up_location"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/round_corner_edges"
+                        android:padding="4dp"
+                        android:text="Select Location"
+                        android:textColor="@color/white"
+                        android:layout_weight="0.8"
+                        android:textSize="11sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_Mic_pick"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="0dp"
+                        android:layout_weight="0.2"
+                        android:src="@mipmap/mic" />
+
+                </LinearLayout>
+
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="Destination point"
+                    android:textAlignment="center"
+                    android:padding="4dp"
+                    android:textSize="11sp"/>
+
+                <LinearLayout
+                    android:id="@+id/ll1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/destination_location"
+                        android:layout_width="7dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="0.8"
+                        android:background="@drawable/round_corner_edges"
+                        android:padding="4dp"
+                        android:text="Select Location"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_Mic_dest"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="0dp"
+                        android:layout_weight="0.2"
+                        android:src="@mipmap/mic" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/car_main_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@color/white"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="1dp"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="20dp"
+                    android:background="@color/light_grey" />
+
+                <TextView
+                    android:id="@+id/distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Distance"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:text="time"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:id="@+id/car_small_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_toLeftOf="@+id/view">
+
+                    <ImageView
+                        android:id="@+id/car_small"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/car_small" />
+
+
+                    <TextView
+                        android:id="@+id/price_small_car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/car_small"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/car_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_toRightOf="@+id/view">
+
+                    <ImageView
+                        android:id="@+id/car"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/car" />
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/car"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/my_location_button"
+                android:background="@mipmap/round_background"
+                android:layout_above="@+id/car_main_layout"
+                android:layout_alignParentRight="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_margin="10dp"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_my_location"
+                    android:background="?selectableItemBackgroundBorderless"
+                    />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/drawer_header"
+            app:menu="@menu/drawer"
+            />
+    </android.support.v4.widget.DrawerLayout>

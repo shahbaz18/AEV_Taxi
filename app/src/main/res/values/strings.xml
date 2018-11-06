@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">AEV</string>
+    <string name="user_name_hint">Username</string>
+    <string name="shared_preference_file">com.sec.configuration</string>
+    <string name="name_hint">Full name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="register_here">New user ? Register here </string>
+    <string name="btn_register">Register</string>
+    <string name="login_text">LOGIN</string>
+    <string name="sign_up_text">Sign up</string>
+    <string name="register_text">Register</string>
+    <string name="home_adress_hint">Home address</string>
+    <string name="postal_code_hint">Postal code</string>
+    <string name="city_hint">City</string>
+    <string name="phone_hint">Phone</string>
+    <string name="btn_next">Next</string>
+    <string name="office_adress_hint">Office address</string>
+    <string name="province_hint">Province</string>
+    <string name="skip">Skip</string>
+    <string name="office_address_text">Office address</string>
+    <string name="payment_detail_text">Payment details</string>
+    <string name="card_number_hint">Card number</string>
+    <string name="card_holder_name_hint">Card holder name</string>
+    <string name="cvv_hint">Security number(CVV)</string>
+    <string name="enter_4_digit_code">Enter the 4 digit code sent you</string>
+    <string name="at_number">at 9646201574</string>
+    <string name="btn_submit">Submit</string>
+    <string name="logo_description">Ride with us</string>
+    <string name="logo_name">AEV</string>
+    <string name="enter_valid_email">Please enter valid Email</string>
+    <string name="enter_your_password">Please enter your password</string>
+    <string name="password_characters_length">Password must be at least 6 characters long.</string>
+    <string name="unable_to_search">Unable to search</string>
+    <string name="placeRequestCode">placeRequestCode</string>
+    <string name="enter_your_name">Please enter your name</string>
+    <string name="enter_your_home_address">Please enter your home address</string>
+    <string name="enter_your_postalCode">Please enter your postal code</string>
+    <string name="enter_your_city">Please enter your city</string>
+    <string name="enter_your_phone">Please enter your valid phone number</string>
+    <string name="enter_your_office_address">Please enter your office address</string>
+    <string name="enter_your_office_postalCode">Please enter office postal code</string>
+    <string name="enter_your_office_city">Please enter office city</string>
+    <string name="enter_your_province">Please enter your province</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+       AIzaSyBuo1K8ZSuh6efkwzLUmdQQMTNoMEMhCus
+    </string>
+    <string name="enter_otp">Please enter 4 digit otp</string>
+    <string name="enter_correct_otp">Please enter correct otp</string>
+    <string name="change_password">Chnage password</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="enter_current_password">Please enter your current password</string>
+    <string name="enter_new_password">Please enter new password</string>
+    <string name="enter_confirm_password">Confirm your password</string>
+    <string name="new_password_not_matched">Password not matched</string>
+    <string name="password_changed_successfully">Password changed successfully</string>
+    <string name="payment">payment</string>
+    <string name="enter_card_number">Please enter card number</string>
+    <string name="enter_card_holder_name">Please enter card holder name</string>
+    <string name="enter_cvv">Enter cvv or security number</string>
+    <string name="change_password_hint">Change Password</string>
+    <string name="forgot_password_heading">Forgot Password</string>
+    <string name="new_password_heading">New Password</string>
+    <string name="verify_account">Verify Account</string>
+
+</resources>

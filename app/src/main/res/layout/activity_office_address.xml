@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/container"
+            tools:context="aev.sec.com.aev.OfficeAddressActivity">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/logo_layout">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/logo_image"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/background_cropped_two"
+                        />
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/back_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        app:srcCompat="@drawable/back_white"
+                        android:padding="8dp"
+                        tools:ignore="VectorDrawableCompat" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="10dp"
+                        android:id="@+id/skip"
+                        android:textColor="@color/white"
+                        android:text="@string/skip"
+                        android:textSize="18sp"/>
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:id="@+id/office_address_text"
+                        android:text="@string/office_address_text"
+                        android:textAllCaps="true"
+                        android:layout_centerInParent="true"
+                        android:textAlignment="center"
+                        android:textSize="21dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+                </RelativeLayout>
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:srcCompat="@mipmap/logo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="110dp"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/office_layout"
+                android:layout_below="@+id/logo_layout"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/office_address_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_office_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:minLines="5"
+                        android:hint="@string/office_adress_hint" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/postal_code_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_office_postal_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:maxLength="6"
+                        android:hint="@string/postal_code_hint" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/city_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_office_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:hint="@string/city_hint" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/province_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/input_province"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:hint="@string/province_hint" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button android:id="@+id/btn_next"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_next"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/navigation_item_payment"
+            android:icon="@drawable/ic_payment"
+            android:title="Payment" />
+
+        <item
+            android:id="@+id/navigation_item_change_password"
+            android:icon="@drawable/change_password"
+            android:title="Change password" />
+        <item
+            android:id="@+id/navigation_item_trips"
+            android:icon="@drawable/trips"
+            android:title="Trips"/>
+        <item
+            android:icon="@drawable/ic_directions_car_black_24dp"
+            android:id="@+id/navigation_item_rides"
+            android:title="rides" />
+        <item
+            android:icon="@drawable/ic_help"
+            android:id="@+id/navigation_item_help"
+            android:title="Help" />
+
+            <item
+                android:icon="@drawable/ic_settings"
+                android:id="@+id/navigation_item_settings"
+                android:title="settings" />
+            <item
+            android:icon="@drawable/logout"
+                android:id="@+id/navigation_item_logout"
+            android:title="Logout" />
+    </group>
+
+</menu>
