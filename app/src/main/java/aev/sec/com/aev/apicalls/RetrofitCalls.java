@@ -2,6 +2,8 @@ package aev.sec.com.aev.apicalls;
 
 
 import aev.sec.com.aev.model.Example;
+import aev.sec.com.aev.model.Pricing;
+import aev.sec.com.aev.model.TripDetails;
 import aev.sec.com.aev.model.UserDetail;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -30,6 +32,9 @@ public interface RetrofitCalls {
 
     @GET("api/directions/json?key=AIzaSyD_MoZW7prXb5W8P42AfYzJQj6tPPRpraQ")
     Call<Example> retrofitMaps(@Query("units") String units, @Query("origin") String origin, @Query("destination") String destination, @Query("mode") String mode);
+
+    @POST("AEVAndroidTripCost")
+    Call<ApiResponse<Pricing>> getCarPricing(@Body TripDetails tripDetails);
 
     //AIzaSyD_MoZW7prXb5W8P42AfYzJQj6tPPRpraQ
 

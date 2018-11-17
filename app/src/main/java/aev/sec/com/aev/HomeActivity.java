@@ -22,6 +22,7 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -71,15 +72,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import aev.sec.com.aev.apicalls.ApiResponse;
 import aev.sec.com.aev.apicalls.GetDistanceRoute;
+import aev.sec.com.aev.apicalls.TripCostRequest;
 import aev.sec.com.aev.interfaces.CallbackHandler;
 import aev.sec.com.aev.model.Example;
+import aev.sec.com.aev.model.Pricing;
 import aev.sec.com.aev.model.UserDetail;
 import aev.sec.com.aev.sharedPreference.SharedPreferenceUtility;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
         VoiceEnabledDialogBox.VoiceEnabledDialogListener, TtsService.ServiceCallbacks
 {
+
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private ImageView openDrawer;
@@ -115,17 +120,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private ImageView pickMic;
     private ImageView destMic;
+    public Pricing pricing;
 
 //    private boolean pickupAddFlag = false;
 //    private boolean pickupAddConfirmFlag = false;
 //    private boolean desAddFlag = false;
 //    private boolean desAddConfirmFlag = false;
 
-    private final int SPEECH_RECOGINIZE_PICKUP_ADD = 221;
-    private final int SPEECH_RECOGINIZE_DESTINATION_ADD = 222;
-    private final int SPEECH_RECOGINIZE_PICKUP_CONFIRM = 223;
-    private final int SPEECH_RECOGINIZE_DESTINATION_CONFIRM = 224;
-    private final int SPEECH_RECOGINIZE_CAR_SELECT = 225;
+    private static final int SPEECH_RECOGINIZE_PICKUP_ADD = 221;
+    private static final int SPEECH_RECOGINIZE_DESTINATION_ADD = 222;
+    private static final int SPEECH_RECOGINIZE_PICKUP_CONFIRM = 223;
+    private static final int SPEECH_RECOGINIZE_DESTINATION_CONFIRM = 224;
+    private static final int SPEECH_RECOGINIZE_CAR_SELECT = 225;
+    private static final int SPEECH_RECOGINIZE_CAR_SELECT_CONFIRM = 226;
 
     public boolean checkGPSStatus(Context context) {
         return mLocationFinder.canGetLocation(context);
@@ -391,6 +398,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }else {
                         this.desAdd = "";
                         // ask des add again
+                        showLocationLoader("Speaking");
                         ttsserviceIntent.putExtra("TextToSpeak","Please Speak Destination Address");
                         ttsserviceIntent.putExtra("ID","desAdd");
                         startService(ttsserviceIntent);
@@ -400,10 +408,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             case SPEECH_RECOGINIZE_CAR_SELECT:{
                 if (resultCode == RESULT_OK && null != data) {
+                    showLocationLoader("Speaking");
                     ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    ttsserviceIntent.putExtra("TextToSpeak",text.get(0));
-                    ttsserviceIntent.putExtra("ID","test");
+                    ttsserviceIntent.putExtra("TextToSpeak","Did you select "+text.get(0)+" car");
+                    ttsserviceIntent.putExtra("ID","carSizeConfirm");
                     startService(ttsserviceIntent);
+                }
+                break;
+            }
+            case SPEECH_RECOGINIZE_CAR_SELECT_CONFIRM:{
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if(text.get(0).equalsIgnoreCase("yes")){
+                        // speak distance and time
+                        showLocationLoader("Speaking");
+                        ttsserviceIntent.putExtra("TextToSpeak",this.time.getText() + " and "+this.distance.getText());
+                        ttsserviceIntent.putExtra("ID","DistanceDetails");
+                        startService(ttsserviceIntent);
+                    }else{
+                        showLocationLoader("Speaking");
+                        ttsserviceIntent.putExtra("TextToSpeak","THe cost for Small Car is "+ this.pricing.getSmallCarCost()+ " dollars and for Big Car is "+ this.pricing.getBigCarCost()+ ". Please Select Type of Car. Big. or . Small");
+                        ttsserviceIntent.putExtra("ID","carSize");
+                        startService(ttsserviceIntent);
+                    }
                 }
                 break;
             }
@@ -672,8 +699,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                         .geodesic(true)
                                 );
                             }
-
-
+                            //call APi to get cost
+                            getTripCost();
                         }
                         else {
                             Toast.makeText(HomeActivity.this,"Error",Toast.LENGTH_SHORT).show();
@@ -853,7 +880,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void TTSSericeCallback(String id) {
-        startRecognizeSpeech(id);
+        if (id.equalsIgnoreCase("bookTaxi")){
+            hideLocationLoader();
+            callBookTaxiApi();
+            // call booking api here
+            //show loading icon.
+        }else {
+            startRecognizeSpeech(id);
+        }
+
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -901,6 +936,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 RESULT_SPEECH = SPEECH_RECOGINIZE_CAR_SELECT;
                 break;
             }
+            case "carSizeConfirm":{
+                RESULT_SPEECH = SPEECH_RECOGINIZE_CAR_SELECT_CONFIRM;
+                break;
+            }
+            case "DistanceDetails":{
+                // call tts again booking Taxi.
+                hideLocationLoader();
+                bookTaxi();
+                break;
+            }
 
         }
 
@@ -914,6 +959,56 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     "Oops! First you must download \"Voice Search\" App from Store",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void bookTaxi() {
+        ttsserviceIntent.putExtra("TextToSpeak","Please wait while we book your Taxi.");
+        ttsserviceIntent.putExtra("ID","bookTaxi");
+        startService(ttsserviceIntent);
+        showLocationLoader("Speaking");
+    }
+
+    private void getTripCost() {
+        progressBar.setVisibility(View.VISIBLE);
+        new TripCostRequest(null, new CallbackHandler<ApiResponse<Pricing>>() {
+
+
+            @Override
+            public void onResponse(ApiResponse<Pricing> response) {
+                if(response!=null)
+                {
+                    if(response.isSuccess()) {
+                        pricing = new Pricing();
+                        pricing = response.getResult();
+                        speakTripCost();
+                    }
+                    else
+                    {
+                        showLoginErrorMessage(response.getError());
+                    }
+                }
+                else
+                {
+                    Log.d("msg","fail");
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        }).call();
+    }
+
+    private void speakTripCost() {
+        showLocationLoader("Speaking");
+        ttsserviceIntent.putExtra("TextToSpeak","THe cost for Small Car is "+ this.pricing.getSmallCarCost()+ " dollars and for Big Car is "+ this.pricing.getBigCarCost()+ ". Please Select Type of Car. Big. or . Small");
+        ttsserviceIntent.putExtra("ID","carSize");
+        startService(ttsserviceIntent);
+    }
+
+    private void showLoginErrorMessage(String string) {
+        Snackbar.make(findViewById(R.id.container), string, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void callBookTaxiApi() {
+        
     }
 
     public List<LatLng> findLatLong(String placeName){
