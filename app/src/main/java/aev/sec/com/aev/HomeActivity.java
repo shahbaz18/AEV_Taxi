@@ -73,11 +73,15 @@ import java.util.List;
 import java.util.Locale;
 
 import aev.sec.com.aev.apicalls.ApiResponse;
+import aev.sec.com.aev.apicalls.BookTaxiRequest;
 import aev.sec.com.aev.apicalls.GetDistanceRoute;
 import aev.sec.com.aev.apicalls.TripCostRequest;
 import aev.sec.com.aev.interfaces.CallbackHandler;
+import aev.sec.com.aev.model.BookTaxiRequestBody;
+import aev.sec.com.aev.model.BookedTripDetails;
 import aev.sec.com.aev.model.Example;
 import aev.sec.com.aev.model.Pricing;
+import aev.sec.com.aev.model.TripDetails;
 import aev.sec.com.aev.model.UserDetail;
 import aev.sec.com.aev.sharedPreference.SharedPreferenceUtility;
 
@@ -555,22 +559,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void showLocationLoader(String message)
-    {
+    public void showLocationLoader(String message){
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage(message);
         mProgressDialog.show();
     }
 
-    public void hideLocationLoader()
-    {
+    public void hideLocationLoader(){
         if (mProgressDialog.isShowing()) {
             mProgressDialog.hide();
         }
     }
     
-    public boolean doesUserHavePermission()
-    {
+    public boolean doesUserHavePermission(){
         int result = this.checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
         return result == PackageManager.PERMISSION_GRANTED;
     }
@@ -700,6 +701,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 );
                             }
                             //call APi to get cost
+
+
+
+//                            Intent bookedTaxiDetails = new Intent(HomeActivity.this,BookedTaxiDetailsActivity.class);
+//                            startActivity(bookedTaxiDetails);
+//                            finish();
+
                             getTripCost();
                         }
                         else {
@@ -776,7 +784,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mLocationFinder.setLongitude(location.getLongitude());
         unregisterLocationListener();
         setCurrentLocationOnMap();
-        hideLocationLoader();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                hideLocationLoader();
+            }
+        });
+
     }
 
     private void setCurrentLocationOnMap() {
@@ -816,8 +830,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void unregisterLocationListener()
-    {
+    public void unregisterLocationListener(){
         try {
             mLocationFinder.unRegisterLocationListener(this);
         }catch (Exception ex) {}
@@ -838,6 +851,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         unregisterLocationListener();
+        unbindService(ttsService);
     }
 
     public void checkPermissionForMarshMellow(String... permissions) {
@@ -881,7 +895,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void TTSSericeCallback(String id) {
         if (id.equalsIgnoreCase("bookTaxi")){
-            hideLocationLoader();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideLocationLoader();
+                }
+            });
+
             callBookTaxiApi();
             // call booking api here
             //show loading icon.
@@ -942,7 +962,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             case "DistanceDetails":{
                 // call tts again booking Taxi.
-                hideLocationLoader();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideLocationLoader();
+                    }
+                });
                 bookTaxi();
                 break;
             }
@@ -951,7 +976,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         try {
             startActivityForResult(recognizeSpeechIntent, RESULT_SPEECH);
-            hideLocationLoader();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    hideLocationLoader();
+                }
+            });
+
 
         } catch (ActivityNotFoundException a) {
             Toast.makeText(
@@ -970,7 +1001,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void getTripCost() {
         progressBar.setVisibility(View.VISIBLE);
-        new TripCostRequest(null, new CallbackHandler<ApiResponse<Pricing>>() {
+        TripDetails  tripDetails = new TripDetails();
+        // send trip details.. Pending
+        new TripCostRequest(tripDetails, new CallbackHandler<ApiResponse<Pricing>>() {
 
 
             @Override
@@ -1008,7 +1041,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void callBookTaxiApi() {
-        
+        progressBar.setVisibility(View.VISIBLE);
+        BookTaxiRequestBody bookTaxiBody = new BookTaxiRequestBody();
+        new BookTaxiRequest(bookTaxiBody, new CallbackHandler<ApiResponse<BookedTripDetails>>() {
+            @Override
+            public void onResponse(ApiResponse<BookedTripDetails> response) {
+                if(response!=null)
+                {
+                    if(response.isSuccess()) {
+                        // start new activity to show booked taxi details
+                        Intent bookedTaxiDetails = new Intent(HomeActivity.this,BookedTaxiDetailsActivity.class);
+                        startActivity(bookedTaxiDetails);
+                        finish();
+
+                    }
+                    else
+                    {
+                        showLoginErrorMessage(response.getError());
+                    }
+                }
+                else
+                {
+                    Log.d("msg","fail");
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     public List<LatLng> findLatLong(String placeName){

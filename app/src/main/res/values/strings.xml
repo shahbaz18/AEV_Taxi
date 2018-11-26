@@ -67,5 +67,7 @@
     <string name="forgot_password_heading">Forgot Password</string>
     <string name="new_password_heading">New Password</string>
     <string name="verify_account">Verify Account</string>
+    <string name="booked_taxi_heading">Booked Taxi Details</string>
+    <string name="btn_UnlockCar">Unlock Car</string>
 
 </resources>

@@ -39,7 +39,9 @@
         <service
             android:name=".TtsService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".BookedTaxiDetailsActivity"></activity>
     </application>
 
 </manifest>

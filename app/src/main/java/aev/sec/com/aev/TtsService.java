@@ -1,7 +1,9 @@
 package aev.sec.com.aev;
 
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
 import android.speech.tts.SynthesisCallback;
@@ -15,7 +17,7 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class TtsService extends TextToSpeechService implements TextToSpeech.OnInitListener {
+public class TtsService extends TextToSpeechService implements TextToSpeech.OnInitListener, ServiceConnection {
 
     private TextToSpeech mTts;
     private String str;
@@ -23,6 +25,21 @@ public class TtsService extends TextToSpeechService implements TextToSpeech.OnIn
 
     private final IBinder binder = new LocalBinder();
     private ServiceCallbacks serviceCallbacks;
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+
+    }
+
+    @Override
+    public void onBindingDied(ComponentName name) {
+
+    }
 
 
     public interface ServiceCallbacks {

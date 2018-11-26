@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container"
+    tools:context="aev.sec.com.aev.BookedTaxiDetailsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp"
+        android:background="@color/colorPrimary"
+        android:layout_height="?attr/actionBarSize">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/booked_taxi_heading"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="@string/booked_taxi_heading"
+                android:textSize="@dimen/screen_heading"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/booked_taxi_layout"
+        android:layout_below="@+id/toolbar">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp">
+
+        <TextView
+            android:id="@+id/vehicleIDLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:layout_toEndOf="@+id/progress_bar"
+            android:layout_toRightOf="@+id/progress_bar"
+            android:contentDescription="VechicleID"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="ID"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            tools:text="ID" />
+
+        <TextView
+            android:id="@+id/vehicleID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/vehicleVinLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/vehicleIDLabel"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Vin"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                tools:text="Vin" />
+
+            <TextView
+                android:id="@+id/vehicleVin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/plateNumberLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/vehicleVin"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Plate Number"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                tools:text="Plate Number" />
+
+            <TextView
+                android:id="@+id/plateNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/makeLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/plateNumber"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Make"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                tools:text="Make" />
+            <TextView
+                android:id="@+id/make"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/modelLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/make"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Model"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                tools:text="Model" />
+            <TextView
+                android:id="@+id/model"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/yearLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/model"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Year"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                tools:text="Year" />
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/accesCodeLable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/year"
+            android:layout_marginTop="18dp"
+            android:padding="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:gravity="center"
+            android:text="Enter Access Code"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            tools:text="Enter Access Code" />
+
+        <EditText
+            android:id="@+id/accessCodeInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="50dp"
+            android:layout_below="@+id/accesCodeLable"
+            android:layout_marginTop="25dp"
+            android:padding="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_toEndOf="@+id/progress_bar"
+            android:layout_toRightOf="@+id/progress_bar"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Access Code"
+            android:inputType="none" />
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_accessCode"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/booked_taxi_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:background="@color/colorPrimary"
+        android:padding="5dp"
+        android:text="@string/btn_UnlockCar"
+        android:layout_marginHorizontal="15dp"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>

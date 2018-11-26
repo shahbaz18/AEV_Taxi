@@ -1,6 +1,9 @@
 package aev.sec.com.aev.apicalls;
 
 
+import aev.sec.com.aev.model.AccessCode;
+import aev.sec.com.aev.model.BookTaxiRequestBody;
+import aev.sec.com.aev.model.BookedTripDetails;
 import aev.sec.com.aev.model.Example;
 import aev.sec.com.aev.model.Pricing;
 import aev.sec.com.aev.model.TripDetails;
@@ -35,6 +38,12 @@ public interface RetrofitCalls {
 
     @POST("AEVAndroidTripCost")
     Call<ApiResponse<Pricing>> getCarPricing(@Body TripDetails tripDetails);
+
+    @POST("AEVAndroidTaxiSelection")
+    Call<ApiResponse<BookedTripDetails>> bookTaxi(@Body BookTaxiRequestBody bookTaxiRequestBody);
+
+    @POST("AEVAndroidTripPlanned")
+    Call<ApiResponse<String>> unlockCar(@Body AccessCode accessCodeRequest);
 
     //AIzaSyD_MoZW7prXb5W8P42AfYzJQj6tPPRpraQ
 
