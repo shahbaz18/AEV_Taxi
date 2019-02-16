@@ -12,12 +12,12 @@ import retrofit2.Response;
  * Created by Shahbaz on 2018-11-15.
  */
 
-public class TripCostRequest implements Callback<ApiResponse<Pricing>> {
+public class TripCostRequest implements Callback<Pricing> {
 
-    private CallbackHandler<ApiResponse<Pricing>> mCallback;
+    private CallbackHandler<Pricing> mCallback;
     private TripDetails tripDetails;
 
-    public TripCostRequest(TripDetails tripDetails, CallbackHandler<ApiResponse<Pricing>> mCallback)
+    public TripCostRequest(TripDetails tripDetails, CallbackHandler<Pricing> mCallback)
     {
         this.tripDetails = tripDetails;
         this.mCallback = mCallback;
@@ -26,7 +26,7 @@ public class TripCostRequest implements Callback<ApiResponse<Pricing>> {
     public void call() {
         try {
             RetrofitCalls retrofitCalls = RetrofitClient.getRetrofitCalls();
-            Call<ApiResponse<Pricing>> registerResponseCall = retrofitCalls.getCarPricing(tripDetails);
+            Call<Pricing> registerResponseCall = retrofitCalls.getCarPricing(tripDetails);
             registerResponseCall.enqueue(this);
         } catch (Exception ex)
         {
@@ -35,12 +35,12 @@ public class TripCostRequest implements Callback<ApiResponse<Pricing>> {
     }
 
     @Override
-    public void onResponse(Call<ApiResponse<Pricing>> call, Response<ApiResponse<Pricing>> response) {
-
+    public void onResponse(Call<Pricing> call, Response<Pricing> response) {
+        mCallback.onResponse(response.body());
     }
 
     @Override
-    public void onFailure(Call<ApiResponse<Pricing>> call, Throwable t) {
+    public void onFailure(Call<Pricing> call, Throwable t) {
 
     }
 }

@@ -7,7 +7,7 @@ package aev.sec.com.aev.model;
 public class TripDetails {
 
     private String completeFromToString;
-    private float distance;
+    private String distance;
     private String pickUpLocation;
     private String dropOffLocation;
     private String totalTime;
@@ -21,11 +21,11 @@ public class TripDetails {
         this.completeFromToString = completeFromToString;
     }
 
-    public float getDistance() {
+    public String getDistance() {
         return distance;
     }
 
-    public void setDistance(float distance) {
+    public void setDistance(String distance) {
         this.distance = distance;
     }
 

@@ -5,22 +5,23 @@ package aev.sec.com.aev.model;
  */
 
 public class BookTaxiRequestBody {
-    private boolean sedan1;
-    private boolean sedan2;
 
-    public boolean isSedan1() {
-        return sedan1;
+    private String carSize;
+    private String pickUpAdd;
+
+    public String getCarSize() {
+        return carSize;
     }
 
-    public void setSedan1(boolean sedan1) {
-        this.sedan1 = sedan1;
+    public void setCarSize(String carSize) {
+        this.carSize = carSize;
     }
 
-    public boolean isSedan2() {
-        return sedan2;
+    public String getPickUpAdd() {
+        return pickUpAdd;
     }
 
-    public void setSedan2(boolean sedan2) {
-        this.sedan2 = sedan2;
+    public void setPickUpAdd(String pickUpAdd) {
+        this.pickUpAdd = pickUpAdd;
     }
 }

@@ -178,14 +178,14 @@ public class SignUpActivity extends AppCompatActivity {
         final UserDetail userDetail = new UserDetail();
         userDetail.setEmail(userEmail);
         progressBar.setVisibility(View.VISIBLE);
-        new SignUpOtpRequest(userDetail, new CallbackHandler<ApiResponse<UserDetail>>() {
+        new SignUpOtpRequest(userDetail, new CallbackHandler<UserDetail>() {
             @Override
-            public void onResponse(ApiResponse<UserDetail> response) {
+            public void onResponse(UserDetail response) {
                 if(response!=null)
                 {
-                    if(response.isSuccess()) {
+
                         UserDetail userDetails= new UserDetail();
-                        userDetails = response.getResult();
+                        userDetails = response;
                         userDetail.setOtp(userDetails.getOtp());
                         userDetail.setType("register");
                         userDetail.setUserName(name);
@@ -198,15 +198,10 @@ public class SignUpActivity extends AppCompatActivity {
                         Intent intent = new Intent(SignUpActivity.this, OtpActivity.class);
                         intent.putExtra("userDetail",userDetail);
                         startActivity(intent);
-                    }
-                    else
-                    {
-                        showLoginErrorMessage(response.getError());
-                    }
                 }
                 else
                 {
-
+                    showLoginErrorMessage("Sign Up otp Error");
                 }
 
                 progressBar.setVisibility(View.GONE);

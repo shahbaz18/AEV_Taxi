@@ -85,31 +85,25 @@ public class NewPasswordActivity extends AppCompatActivity {
         userDetail.setPassword(userNewPassword);
         userDetail.setType("forgot");
         progressBar.setVisibility(View.VISIBLE);
-        new SetPasswordRequest(userDetail, new CallbackHandler<ApiResponse<UserDetail>>()
+        new SetPasswordRequest(userDetail, new CallbackHandler<UserDetail>()
         {
-
             @Override
-            public void onResponse(ApiResponse<UserDetail> response) {
+            public void onResponse(UserDetail response) {
                 if(response!=null)
                 {
-                    if(response.isSuccess()) {
-                        showLoginErrorMessage(getString(R.string.password_changed_successfully));
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                        finish();
-                            }
+
+                    showLoginErrorMessage(getString(R.string.password_changed_successfully));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                    finish();
+                        }
                         }, TimeUnit.SECONDS.toMillis(SPLASH_TIME_OUT));
-                  }
-                    else
-                    {
-//                                Log.d("msg",response.getError());
-                        showLoginErrorMessage(response.getError());
-                    }
+
                 }
                 else
                 {
-//                            Log.d("msg","fail");
+                    showLoginErrorMessage("Error in Set Password Request");
                 }
 
                 progressBar.setVisibility(View.GONE);

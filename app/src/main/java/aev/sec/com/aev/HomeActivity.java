@@ -80,6 +80,7 @@ import aev.sec.com.aev.interfaces.CallbackHandler;
 import aev.sec.com.aev.model.BookTaxiRequestBody;
 import aev.sec.com.aev.model.BookedTripDetails;
 import aev.sec.com.aev.model.Example;
+import aev.sec.com.aev.model.LoginResponse;
 import aev.sec.com.aev.model.Pricing;
 import aev.sec.com.aev.model.TripDetails;
 import aev.sec.com.aev.model.UserDetail;
@@ -93,7 +94,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private ImageView openDrawer;
     private SharedPreferenceUtility mSharedPreferences;
-    private UserDetail userDetail;
+    private LoginResponse userDetail;
     private RelativeLayout carlayout,carSmall,car;
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
@@ -125,6 +126,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ImageView pickMic;
     private ImageView destMic;
     public Pricing pricing;
+    private String carSize;
 
 //    private boolean pickupAddFlag = false;
 //    private boolean pickupAddConfirmFlag = false;
@@ -148,8 +150,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
         mLocationFinder = CurrentLocationFinder.getInstance();
         mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        userDetail = new UserDetail();
-        userDetail = (UserDetail) getIntent().getSerializableExtra("userDetail");
+        userDetail = new LoginResponse();
+        userDetail = (LoginResponse) getIntent().getSerializableExtra("userDetail");
         srcLatlng=null;
         decLatLng=null;
         hideKeyboard();
@@ -220,7 +222,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         if(userDetail!=null) {
-            mSharedPreferences.setUserEmail(userDetail.getEmail());
+            mSharedPreferences.setUserEmail(userDetail.getEmailId());
             mSharedPreferences.setUserName(userDetail.getUserName());
             headText.setText(mSharedPreferences.getUserName());
         }
@@ -395,7 +397,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(decLatLng,15));
                             performAction();
                         }
-                        // book
+                        // book shahbaz
 //                        ttsserviceIntent.putExtra("TextToSpeak","Please Select Type of Car. Big. or . Small");
 //                        ttsserviceIntent.putExtra("ID","carSize");
 //                        startService(ttsserviceIntent);
@@ -416,6 +418,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     ttsserviceIntent.putExtra("TextToSpeak","Did you select "+text.get(0)+" car");
                     ttsserviceIntent.putExtra("ID","carSizeConfirm");
+                    carSize = text.get(0);
                     startService(ttsserviceIntent);
                 }
                 break;
@@ -425,13 +428,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     if(text.get(0).equalsIgnoreCase("yes")){
                         // speak distance and time
-                        showLocationLoader("Speaking");
+//                        showLocationLoader("Speaking");
                         ttsserviceIntent.putExtra("TextToSpeak",this.time.getText() + " and "+this.distance.getText());
                         ttsserviceIntent.putExtra("ID","DistanceDetails");
                         startService(ttsserviceIntent);
                     }else{
                         showLocationLoader("Speaking");
-                        ttsserviceIntent.putExtra("TextToSpeak","THe cost for Small Car is "+ this.pricing.getSmallCarCost()+ " dollars and for Big Car is "+ this.pricing.getBigCarCost()+ ". Please Select Type of Car. Big. or . Small");
+                        carSize = "";
+                        ttsserviceIntent.putExtra("TextToSpeak","Please Select Type of Car. Big. or . Small");
                         ttsserviceIntent.putExtra("ID","carSize");
                         startService(ttsserviceIntent);
                     }
@@ -456,6 +460,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 String placeName = String.format("%s", place.getName());
                 srcLatlng = place.getLatLng();
                 pickUpLocation.setText(placeName);
+                this.pickAdd = place.getAddress().toString();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(srcLatlng,15));
             }else if (requestCode==111)
             {
@@ -463,6 +468,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 String placeName = String.format("%s", place.getName());
                 decLatLng = place.getLatLng();
                 destinationLocation.setText(placeName);
+                this.desAdd = place.getAddress().toString();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(decLatLng,15));
             }
             performAction();
@@ -563,6 +569,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage(message);
         mProgressDialog.show();
+        //shahbaz run on ui
     }
 
     public void hideLocationLoader(){
@@ -688,8 +695,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                 distance.setText("Distance:" + distances );
 //                                price.setText("Price:" +" "+"$"+" "+calculateDistance*5);
 //                                smallCarPrice.setText("Price:" +" "+"$"+" "+calculateDistance*4);
-                                price.setText("Big Car");
-                                smallCarPrice.setText("Small Car");
+                                    // shahbaz need to move this somewhere else
+//                                price.setText("Big Car Price");
+//                                smallCarPrice.setText("Small  Price");
 //                                mBinding.showDistanceTime.setText("Distance:" + distance + ", Duration:" + time);
                                 String encodedString = result.getRoutes().get(0).getOverviewPolyline().getPoints();
                                 List<LatLng> list = decodePoly(encodedString);
@@ -806,6 +814,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             String knownName = addresses.get(0).getFeatureName();
             srcLatlng = location;
             pickUpLocation.setText(knownName);
+            this.pickAdd = knownName;
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(srcLatlng,15));
             performAction();
         }
@@ -851,7 +860,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         unregisterLocationListener();
-        unbindService(ttsService);
+//        unbindService(ttsService);
     }
 
     public void checkPermissionForMarshMellow(String... permissions) {
@@ -993,36 +1002,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void bookTaxi() {
+//        showLocationLoader("Speaking");
         ttsserviceIntent.putExtra("TextToSpeak","Please wait while we book your Taxi.");
         ttsserviceIntent.putExtra("ID","bookTaxi");
         startService(ttsserviceIntent);
-        showLocationLoader("Speaking");
     }
 
     private void getTripCost() {
         progressBar.setVisibility(View.VISIBLE);
         TripDetails  tripDetails = new TripDetails();
         // send trip details.. Pending
-        new TripCostRequest(tripDetails, new CallbackHandler<ApiResponse<Pricing>>() {
-
+        tripDetails.setPickUpLocation(this.pickAdd);
+        tripDetails.setDropOffLocation(this.desAdd);
+        String disTemp = this.distance.getText().toString();
+        tripDetails.setDistance(disTemp.substring(disTemp.indexOf(":") + 1,disTemp.length()));
+        tripDetails.setEnd(this.desAdd);
+        tripDetails.setTotalTime(this.time.getText().toString());
+        new TripCostRequest(tripDetails, new CallbackHandler<Pricing>() {
 
             @Override
-            public void onResponse(ApiResponse<Pricing> response) {
+            public void onResponse(Pricing response) {
                 if(response!=null)
                 {
-                    if(response.isSuccess()) {
-                        pricing = new Pricing();
-                        pricing = response.getResult();
-                        speakTripCost();
-                    }
-                    else
-                    {
-                        showLoginErrorMessage(response.getError());
-                    }
+                    pricing = new Pricing();
+                    pricing = response;
+                    price.setText("Big Car\n$" + String.valueOf(pricing.getBigCarCost()));
+                    smallCarPrice.setText("Small Car\n$" + String.valueOf(pricing.getSmallCarCost()));
+                    speakTripCost();
                 }
                 else
                 {
-                    Log.d("msg","fail");
+                    showLoginErrorMessage("Error Getting Cost. Please Try Again");
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -1031,7 +1041,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void speakTripCost() {
         showLocationLoader("Speaking");
-        ttsserviceIntent.putExtra("TextToSpeak","THe cost for Small Car is "+ this.pricing.getSmallCarCost()+ " dollars and for Big Car is "+ this.pricing.getBigCarCost()+ ". Please Select Type of Car. Big. or . Small");
+        ttsserviceIntent.putExtra("TextToSpeak","THe cost for Small Car is "+ this.pricing.getSmallCarCost()+ " dollars and for Big Car is "+ this.pricing.getBigCarCost()+ "dollars. Please Select Type of Car. Big. or . Small");
         ttsserviceIntent.putExtra("ID","carSize");
         startService(ttsserviceIntent);
     }
@@ -1041,32 +1051,30 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void callBookTaxiApi() {
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
         BookTaxiRequestBody bookTaxiBody = new BookTaxiRequestBody();
-        new BookTaxiRequest(bookTaxiBody, new CallbackHandler<ApiResponse<BookedTripDetails>>() {
+        bookTaxiBody.setCarSize(this.carSize);
+        bookTaxiBody.setPickUpAdd(this.pickAdd);
+        new BookTaxiRequest(bookTaxiBody, new CallbackHandler<BookedTripDetails>() {
             @Override
-            public void onResponse(ApiResponse<BookedTripDetails> response) {
+            public void onResponse(BookedTripDetails response) {
                 if(response!=null)
                 {
-                    if(response.isSuccess()) {
-                        // start new activity to show booked taxi details
-                        Intent bookedTaxiDetails = new Intent(HomeActivity.this,BookedTaxiDetailsActivity.class);
-                        startActivity(bookedTaxiDetails);
-                        finish();
-
-                    }
-                    else
-                    {
-                        showLoginErrorMessage(response.getError());
-                    }
+                    BookedTripDetails details = new BookedTripDetails();
+                    details = response;
+                    // start new activity to show booked taxi details
+                    Intent bookedTaxiDetails = new Intent(HomeActivity.this,BookedTaxiDetailsActivity.class);
+                    bookedTaxiDetails.putExtra("details",details);
+                    startActivity(bookedTaxiDetails);
+                    finish();
                 }
                 else
                 {
-                    Log.d("msg","fail");
+                    Toast.makeText(getApplicationContext(),"Error Booking Taxi",Toast.LENGTH_LONG).show();
                 }
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
             }
-        });
+        }).call();
     }
 
     public List<LatLng> findLatLong(String placeName){

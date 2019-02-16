@@ -6,12 +6,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SetPasswordRequest implements Callback<ApiResponse<UserDetail>>
+public class SetPasswordRequest implements Callback<UserDetail>
 {
 
-    private CallbackHandler<ApiResponse<UserDetail>> mCallback;
+    private CallbackHandler<UserDetail> mCallback;
     private UserDetail userDetail;
-    public SetPasswordRequest(UserDetail userDetail,CallbackHandler<ApiResponse<UserDetail>> mCallback)
+    public SetPasswordRequest(UserDetail userDetail,CallbackHandler<UserDetail> mCallback)
     {
         this.userDetail = userDetail;
         this.mCallback = mCallback;
@@ -20,7 +20,7 @@ public class SetPasswordRequest implements Callback<ApiResponse<UserDetail>>
     public void call() {
         try {
             RetrofitCalls retrofitCalls = RetrofitClient.getRetrofitCalls();
-            Call<ApiResponse<UserDetail>> registerResponseCall = retrofitCalls.changePassword(userDetail);
+            Call<UserDetail> registerResponseCall = retrofitCalls.changePassword(userDetail);
             registerResponseCall.enqueue(this);
         } catch (Exception ex)
         {
@@ -29,12 +29,12 @@ public class SetPasswordRequest implements Callback<ApiResponse<UserDetail>>
     }
 
     @Override
-    public void onResponse(Call<ApiResponse<UserDetail>> call, Response<ApiResponse<UserDetail>> response) {
+    public void onResponse(Call<UserDetail> call, Response<UserDetail> response) {
         mCallback.onResponse(response.body());
     }
 
     @Override
-    public void onFailure(Call<ApiResponse<UserDetail>> call, Throwable t) {
+    public void onFailure(Call<UserDetail> call, Throwable t) {
         mCallback.onResponse(null);
     }
 }

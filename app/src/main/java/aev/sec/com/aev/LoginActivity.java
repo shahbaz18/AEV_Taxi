@@ -21,6 +21,8 @@ import java.util.regex.Pattern;
 import aev.sec.com.aev.apicalls.ApiResponse;
 import aev.sec.com.aev.apicalls.LoginRequest;
 import aev.sec.com.aev.interfaces.CallbackHandler;
+import aev.sec.com.aev.model.LoginRequestBody;
+import aev.sec.com.aev.model.LoginResponse;
 import aev.sec.com.aev.model.UserDetail;
 
 public class LoginActivity extends AppCompatActivity {
@@ -106,23 +108,33 @@ public class LoginActivity extends AppCompatActivity {
         userDetail.setPassword(userPassword);
         progressBar.setVisibility(View.VISIBLE);
 
+        LoginRequestBody loginRequestBody = new LoginRequestBody(userEmail,userPassword);
+
         // starts here
-        userDetail.setUserName("shahbaz");
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-        intent.putExtra("userDetail",userDetail);
-        startActivity(intent);
-        finish();
-        progressBar.setVisibility(View.GONE);
+
+
+//        userDetail.setUserName("shahbaz");
+//        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//        intent.putExtra("userDetail",userDetail);
+//        startActivity(intent);
+//        finish();
+//        progressBar.setVisibility(View.GONE);
+
+
+
+
         //ends here
         // comment for development
-        /*new LoginRequest(userDetail, new CallbackHandler<ApiResponse<UserDetail>>() {
+
+        new LoginRequest(loginRequestBody, new CallbackHandler<LoginResponse>() {
+
             @Override
-            public void onResponse(ApiResponse<UserDetail> response) {
+            public void onResponse(LoginResponse response) {
                 if(response!=null)
                 {
-                    if(response.isSuccess()) {
-                        UserDetail userDetail= new UserDetail();
-                        userDetail = response.getResult();
+                    if(response.getUserName() != null && !response.getUserName().isEmpty()) {
+                        LoginResponse userDetail;
+                        userDetail = response;
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         intent.putExtra("userDetail",userDetail);
                         startActivity(intent);
@@ -130,17 +142,18 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        showLoginErrorMessage(response.getError());
+                        showLoginErrorMessage("Invalid Details/User Not Found");
 //                        Log.d("msg",response.getError());
                     }
                 }
                 else
                 {
                     Log.d("msg","fail");
+                    showLoginErrorMessage("Error in Connecting to Server");
                 }
                 progressBar.setVisibility(View.GONE);
             }
-        }).call();*/
+        }).call();
 
     }
 

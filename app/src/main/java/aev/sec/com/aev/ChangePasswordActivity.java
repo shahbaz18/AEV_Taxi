@@ -91,32 +91,26 @@ public class ChangePasswordActivity extends AppCompatActivity {
         userDetail.setOldPassword(userCurrentPassword);
         userDetail.setPassword(userNewPassword);
         progressBar.setVisibility(View.VISIBLE);
-        new SetPasswordRequest(userDetail, new CallbackHandler<ApiResponse<UserDetail>>()
+        new SetPasswordRequest(userDetail, new CallbackHandler<UserDetail>()
         {
-
             @Override
-            public void onResponse(ApiResponse<UserDetail> response) {
+            public void onResponse(UserDetail response) {
                 if(response!=null)
                 {
-                    if(response.isSuccess()) {
-                        progressBar.setVisibility(View.GONE);
-                        showLoginErrorMessage(getString(R.string.password_changed_successfully));
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        }, 2000);
-                    }
-                    else
-                    {
-//                                Log.d("msg",response.getError());
-                        showLoginErrorMessage(response.getError());
-                    }
+
+                    progressBar.setVisibility(View.GONE);
+                    showLoginErrorMessage(getString(R.string.password_changed_successfully));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 2000);
+
                 }
                 else
                 {
-//                            Log.d("msg","fail");
+                    showLoginErrorMessage("Error changing password");
                 }
 
                 progressBar.setVisibility(View.GONE);

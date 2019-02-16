@@ -106,28 +106,22 @@ private EditText cardnumber,cardHolderName,cvv;
 
     private void sendRequest() {
         progressBar.setVisibility(View.VISIBLE);
-        new SignUpRequest(userDetail, new CallbackHandler<ApiResponse<UserDetail>>() {
+        new SignUpRequest(userDetail, new CallbackHandler<UserDetail>() {
             @Override
-            public void onResponse(ApiResponse<UserDetail> response) {
+            public void onResponse(UserDetail response) {
                 if(response!=null)
                 {
-                    if(response.isSuccess()) {
-                        UserDetail userDetails=new UserDetail();
-                        userDetails= response.getResult();
-                        Intent intent = new Intent(PaymentsDetailsActivity.this, HomeActivity.class);
-                        intent.putExtra("userDetail",userDetails);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else
-                    {
-                        showLoginErrorMessage(response.getError());
 
-                    }
+                    UserDetail userDetails=new UserDetail();
+                    userDetails= response;
+                    Intent intent = new Intent(PaymentsDetailsActivity.this, HomeActivity.class);
+                    intent.putExtra("userDetail",userDetails);
+                    startActivity(intent);
+                    finish();
                 }
                 else
                 {
-//                            Log.d("msg","fail");
+                    showLoginErrorMessage("Error in Sign UP");
                 }
                 progressBar.setVisibility(View.GONE);
             }

@@ -2,27 +2,29 @@ package aev.sec.com.aev.apicalls;
 
 
 import aev.sec.com.aev.interfaces.CallbackHandler;
-import aev.sec.com.aev.model.UserDetail;
+import aev.sec.com.aev.model.LoginRequestBody;
+import aev.sec.com.aev.model.LoginResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LoginRequest implements Callback<ApiResponse<UserDetail>>
+public class LoginRequest implements Callback<LoginResponse>
 {
 
-    private CallbackHandler<ApiResponse<UserDetail>> mCallback;
-    private UserDetail userDetail;
-    public LoginRequest(UserDetail userDetail,CallbackHandler<ApiResponse<UserDetail>> mCallback)
+    private CallbackHandler<LoginResponse> mCallback;
+    private LoginRequestBody loginRequestBody;
+
+    public LoginRequest(LoginRequestBody loginRequestBody,CallbackHandler<LoginResponse> mCallback)
     {
-        this.userDetail = userDetail;
+        this.loginRequestBody = loginRequestBody;
         this.mCallback = mCallback;
     }
 
     public void call() {
         try {
             RetrofitCalls retrofitCalls = RetrofitClient.getRetrofitCalls();
-            Call<ApiResponse<UserDetail>> registerResponseCall = retrofitCalls.logIn(userDetail);
+            Call<LoginResponse> registerResponseCall = retrofitCalls.logIn(loginRequestBody);
             registerResponseCall.enqueue(this);
         } catch (Exception ex)
         {
@@ -31,12 +33,12 @@ public class LoginRequest implements Callback<ApiResponse<UserDetail>>
     }
 
     @Override
-    public void onResponse(Call<ApiResponse<UserDetail>> call, Response<ApiResponse<UserDetail>> response) {
+    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
         mCallback.onResponse(response.body());
     }
 
     @Override
-    public void onFailure(Call<ApiResponse<UserDetail>> call, Throwable t) {
+    public void onFailure(Call<LoginResponse> call, Throwable t) {
         mCallback.onResponse(null);
     }
 }

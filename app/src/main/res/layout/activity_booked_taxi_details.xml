@@ -238,24 +238,43 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             tools:text="Enter Access Code" />
 
-        <EditText
-            android:id="@+id/accessCodeInput"
+        <LinearLayout
+            android:id="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="50dp"
-            android:layout_below="@+id/accesCodeLable"
-            android:layout_marginTop="25dp"
-            android:padding="5dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_toEndOf="@+id/progress_bar"
-            android:layout_toRightOf="@+id/progress_bar"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="Access Code"
-            android:inputType="none" />
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
+            <EditText
+                android:id="@+id/accessCodeInput"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/accesCodeLable"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_toEndOf="@+id/progress_bar"
+                android:layout_toRightOf="@+id/progress_bar"
+                android:layout_weight="0.85"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Access Code"
+                android:inputType="none"
+                android:padding="5dp"
+                android:textSize="50dp" />
 
+            <ImageView
+                android:id="@+id/iv_Mic_unlockCode"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="25dp"
+                android:layout_weight="0.15"
+                android:padding="5dp"
+                android:src="@mipmap/mic" />
 
+        </LinearLayout>
     </LinearLayout>
 
     <Button

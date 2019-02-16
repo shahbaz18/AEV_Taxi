@@ -1,10 +1,12 @@
 package aev.sec.com.aev.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Shahbaz on 2018-11-17.
  */
 
-public class BookedTripDetails {
+public class BookedTripDetails implements Serializable {
     private Long id;
     private String vehicleVin;
     private String plateNumber;

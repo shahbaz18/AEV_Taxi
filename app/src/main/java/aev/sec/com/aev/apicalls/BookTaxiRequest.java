@@ -11,13 +11,13 @@ import retrofit2.Response;
  * Created by Shahbaz on 2018-11-17.
  */
 
-public class BookTaxiRequest implements Callback<ApiResponse<BookedTripDetails>> {
+public class BookTaxiRequest implements Callback<BookedTripDetails> {
 
-    private CallbackHandler<ApiResponse<BookedTripDetails>> mCallback;
+    private CallbackHandler<BookedTripDetails> mCallback;
     private BookTaxiRequestBody bookTaxiRequestBody;
 
 
-    public BookTaxiRequest(BookTaxiRequestBody bookTaxiRequestBody, CallbackHandler<ApiResponse<BookedTripDetails>> mCallback)
+    public BookTaxiRequest(BookTaxiRequestBody bookTaxiRequestBody, CallbackHandler<BookedTripDetails> mCallback)
     {
         this.bookTaxiRequestBody = bookTaxiRequestBody;
         this.mCallback = mCallback;
@@ -26,7 +26,7 @@ public class BookTaxiRequest implements Callback<ApiResponse<BookedTripDetails>>
     public void call() {
         try {
             RetrofitCalls retrofitCalls = RetrofitClient.getRetrofitCalls();
-            Call<ApiResponse<BookedTripDetails>> registerResponseCall = retrofitCalls.bookTaxi(bookTaxiRequestBody);
+            Call<BookedTripDetails> registerResponseCall = retrofitCalls.bookTaxi(bookTaxiRequestBody);
             registerResponseCall.enqueue(this);
         } catch (Exception ex)
         {
@@ -35,12 +35,12 @@ public class BookTaxiRequest implements Callback<ApiResponse<BookedTripDetails>>
     }
 
     @Override
-    public void onResponse(Call<ApiResponse<BookedTripDetails>> call, Response<ApiResponse<BookedTripDetails>> response) {
-
+    public void onResponse(Call<BookedTripDetails> call, Response<BookedTripDetails> response) {
+        mCallback.onResponse(response.body());
     }
 
     @Override
-    public void onFailure(Call<ApiResponse<BookedTripDetails>> call, Throwable t) {
+    public void onFailure(Call<BookedTripDetails> call, Throwable t) {
 
     }
 }

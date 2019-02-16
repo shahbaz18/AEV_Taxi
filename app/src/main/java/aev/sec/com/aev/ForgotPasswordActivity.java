@@ -70,29 +70,26 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         UserDetail userDetail= new UserDetail();
         userDetail.setEmail(userEmail);
         progressBar.setVisibility(View.VISIBLE);
-        new ForgotPasswordRequest(userDetail, new CallbackHandler<ApiResponse<UserDetail>>() {
+        new ForgotPasswordRequest(userDetail, new CallbackHandler<UserDetail>() {
+
             @Override
-            public void onResponse(ApiResponse<UserDetail> response) {
+            public void onResponse(UserDetail response) {
                 if(response!=null)
                 {
-                    if(response.isSuccess()) {
-                        UserDetail userDetail = new UserDetail();
-                        userDetail= response.getResult();
-                        userDetail.setType("forgot");
-                        Intent intent = new Intent(ForgotPasswordActivity.this, OtpActivity.class);
-                        intent.putExtra("userDetail",userDetail);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else
-                    {
-//                        Log.d("msg",response.getError());
-                        showLoginErrorMessage(response.getError());
-                    }
+
+                    UserDetail userDetail = new UserDetail();
+                    userDetail= response;
+                    userDetail.setType("forgot");
+                    Intent intent = new Intent(ForgotPasswordActivity.this, OtpActivity.class);
+                    intent.putExtra("userDetail",userDetail);
+                    startActivity(intent);
+                    finish();
+
                 }
                 else
                 {
                     Log.d("msg","fail");
+                    showLoginErrorMessage("Error in Forgot Password");
                 }
                 progressBar.setVisibility(View.GONE);
             }
